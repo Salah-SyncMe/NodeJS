@@ -5,6 +5,7 @@ const bcrypt=require("bcryptjs");
 
 
 
+
 exports.fetchUsers=async(request,response)=>{
 try {
     const allUsers=await User.find();
