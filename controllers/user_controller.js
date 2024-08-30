@@ -137,7 +137,7 @@ if(isPassCorrect){
 else{
     return response.status(400).json({
         success:true,
-        message:`The email not correct`
+        message:`The password not correct`
         
             });
 
