@@ -18,20 +18,8 @@ cb(null,request.body.email+ext);
 
 
 var upload=multer({
-storage:storage,
-fileFilter: function(request,file,callback){
-if(file.mimetype=="image/png" || file.mimetype=="image/jpg" || file.mimetype=="image/jpeg"){
-callback(null,true);
-
-}
-else{
-console.log("ERROR only jpg || jpeg || png supported!!");
-callback(null,false);
-    
-}
-
-
-}
+storage:storage
+// fs
 // limits:{
     
 //     fieldSize : 1024 * 1024 * 2
