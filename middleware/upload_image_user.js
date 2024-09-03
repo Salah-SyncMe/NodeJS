@@ -19,7 +19,6 @@ cb(null,request.body.email+ext);
 
 var upload=multer({
 storage:storage
-// fs
 // limits:{
     
 //     fieldSize : 1024 * 1024 * 2
