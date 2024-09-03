@@ -19,7 +19,7 @@ password:{
 
 },
 image:{
-    type:String,
+    type:String
 
 
 },
