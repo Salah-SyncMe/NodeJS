@@ -11,7 +11,6 @@ filename: function(request,file,cb){
 let ext=path.extname(file.originalname);
 const email= request.body.email;
 const s=email.split('@');
-console.log(s[0]);
 cb(null,(s[0])+ext);
 
 }
