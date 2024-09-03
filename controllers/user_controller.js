@@ -97,6 +97,9 @@ const {name,email,password}=request.body;
         
         
         });
+        if(request.file){
+            user.image=request.file.path
+}
         await user.save();
         
         response.status(200).json({

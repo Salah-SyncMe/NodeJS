@@ -15,6 +15,11 @@ password:{
     required:true,
     minlength:6,
 },
+image:{
+    type:String,
+
+
+},
 blog:[{
 
 type:mongoose.Types.ObjectId,
