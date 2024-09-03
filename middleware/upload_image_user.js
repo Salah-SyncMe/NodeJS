@@ -9,11 +9,14 @@ cb(null,"./uploads/images");
 },
 filename: function(request,file,cb){
 let ext=path.extname(file.originalname);
-
-cb(null,request.body.email+ext);
+const email= request.body.email;
+const s=email.split('@');
+console.log(s[0]);
+cb(null,(s[0])+ext);
 
 }
 });
+
 
 
 
