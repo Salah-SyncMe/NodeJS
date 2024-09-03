@@ -4,6 +4,7 @@ const body_parser=require("body-parser");
 const dotenv=require("dotenv");
 const mongoose=require("mongoose");
 app.use(body_parser.json());
+app.use('/uploads', express.static('uploads'));
 dotenv.config();
 const port=process.env.PORT || 5001;
 const mogoose_url=process.env.MONGO_URL;
