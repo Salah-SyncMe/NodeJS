@@ -3,7 +3,7 @@ const multer=require("multer");
 
 var storage=multer.diskStorage({
 destination: function(request,file,cb){
-cb(null,"./uploads/images");
+cb(null,"../uploads/images");
 
 
 },
