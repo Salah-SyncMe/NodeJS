@@ -2,8 +2,8 @@ const path=require("path");
 const multer=require("multer");
 
 var storage=multer.diskStorage({
-destination: function(request,file,cb){
-cb(null,"./uploads/images");
+destination: function(request,file,cb){//callback
+cb(null,path.join(__dirname,"../uploads/images"));
 
 
 },

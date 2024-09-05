@@ -3,8 +3,11 @@ const app=express();
 const body_parser=require("body-parser");
 const dotenv=require("dotenv");
 const mongoose=require("mongoose");
+const path=require("path");
 app.use(body_parser.json());
-app.use('/uploads', express.static('uploads'));
+app.use(express.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname,"uploads/images")));
+
 dotenv.config();
 const port=process.env.PORT || 5001;
 const mogoose_url=process.env.MONGO_URL;
