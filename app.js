@@ -7,6 +7,7 @@ const path=require("path");
 app.use(body_parser.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,"uploads/images")));
+app.use(express.static(path.join(__dirname,"uploads/imagesPosts")));
 
 dotenv.config();
 const port=process.env.PORT || 5001;
