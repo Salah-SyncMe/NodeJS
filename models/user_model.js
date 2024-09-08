@@ -20,10 +20,10 @@ image:{
 
 
 },
-blog:[{
+posts:[{
 
 type:mongoose.Types.ObjectId,
-ref:"Blog",
+ref:"Post",
 required:true
 
 
