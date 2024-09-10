@@ -114,7 +114,7 @@ existUser.posts.push(addPost);
 
 await existUser.save({session});
 await session.commitTransaction();
-return response.status(200).json({success:true,body:savePost});
+return response.status(200).json({success:true,post:savePost});
 
 } catch (error) {
 
