@@ -76,12 +76,10 @@ exports.addPost=async(request,response)=>{
 
 
     try {
-        const result=await cloud.uploads(request.files[0].path);
 
         const {user}=request.body;
 
         console.log(request.body);
-        console.log(result.url);
     
         const existUser=await User.findById(user);
 
@@ -94,17 +92,17 @@ exports.addPost=async(request,response)=>{
                 });
 
 
+
     }
     else{
 
         const addPost=new Post(request.body);
-  
-        if(request.files){
+        if(request.files && request.files.length > 0){
+            const result=await cloud.uploads(request.files[0].path);
+
              addPost.images=result.url;
+            await fs.unlinkSync(request.files[0].path);
     }
-    fs.unlinkSync(request.files[0].path);
-    
-    
     const session=await mongoose.startSession();
     session.startTransaction();
     const savePost=await addPost.save({session});
@@ -123,6 +121,7 @@ exports.addPost=async(request,response)=>{
             
                 });
     }
+
 
 
 
