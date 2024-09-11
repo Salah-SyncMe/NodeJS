@@ -1,7 +1,8 @@
 const Post=require("../models/post_model");
 const mongoose=require("mongoose");
 const User=require("../models/user_model");
-
+const cloud=require("../middleware/cloudinary_config");
+const fs=require("fs");
 exports.fetch=async(request,response)=>{
 try {
 
@@ -71,21 +72,47 @@ exports.fetchById=async(request,response)=>{
     
     };
 exports.addPost=async(request,response)=>{
-    const {user}=request.body;
-    console.log(request.body);
 
-    const existUser=await User.findById(user);
+
 
     try {
+        const result=await cloud.uploads(request.files[0].path);
 
+        const {user}=request.body;
 
+        console.log(request.body);
+        console.log(result.url);
+    
+        const existUser=await User.findById(user);
 
     if(!existUser){
         return response.status(400).json({
+
             success:true,
             message:`no have account.yet, go to sign up`
             
                 });
+
+
+    }
+    else{
+
+        const addPost=new Post(request.body);
+  
+        if(request.files){
+             addPost.images=result.url;
+    }
+    fs.unlinkSync(request.files[0].path);
+    
+    
+    const session=await mongoose.startSession();
+    session.startTransaction();
+    const savePost=await addPost.save({session});
+    existUser.posts.push(addPost);
+    
+    await existUser.save({session});
+    await session.commitTransaction();
+    return response.status(200).json({success:true,post:savePost});
 
 
     }
@@ -96,35 +123,7 @@ exports.addPost=async(request,response)=>{
             
                 });
     }
-try {
 
-
-    const addPost=new Post(request.body);
-  
-    if(request.file){
-         addPost.images=request.file.path
-}
-
-
-
-const session=await mongoose.startSession();
-session.startTransaction();
-const savePost=await addPost.save({session});
-existUser.posts.push(addPost);
-
-await existUser.save({session});
-await session.commitTransaction();
-return response.status(200).json({success:true,post:savePost});
-
-} catch (error) {
-
-    return response.json({
-success:false,
-message:`${error}`
-
-    });
-    
-}
 
 
 };

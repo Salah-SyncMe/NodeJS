@@ -3,7 +3,8 @@ const User=require("../models/user_model");
 const mongoose=require("mongoose");
 const bcrypt=require("bcryptjs");
 
-
+const cloud=require("../middleware/cloudinary_config");
+const fs=require("fs");
 
 
 exports.fetchUsers=async(request,response)=>{
@@ -81,6 +82,8 @@ exports.fetchById=async(request,response)=>{
 exports.userSignUp=async(request,response)=>{
     try {
 const {name,email,password}=request.body;
+const result=await cloud.uploadFile(request.file.path);
+
     const ExistUser=await User.findOne({email});
     if(ExistUser){
         return response.status(400).json({
@@ -97,11 +100,13 @@ const {name,email,password}=request.body;
         
         
         });
-        if(request.file){
-            user.image=request.file.path
-}
-        await user.save();
         
+        if(request.file){
+            user.image=result.url;
+        }
+        await user.save();
+        fs.unlinkSync(request.file.path);
+
         response.status(200).json({
         success:true,
         message:"Was added successfully",
