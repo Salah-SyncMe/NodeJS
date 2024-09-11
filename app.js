@@ -13,7 +13,7 @@ dotenv.config();
 const port=process.env.PORT || 5001;
 const mogoose_url=process.env.MONGO_URL;
 mongoose.connect(mogoose_url).then(()=>{
-    console.log(`was connected DB successfully`);
+    console.log(`was connected DB successfully ${mogoose_url}`);
      
     app.listen(port,()=>{
         console.log(`Listening for server port http://localhost:${port}`);
