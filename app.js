@@ -24,7 +24,7 @@ try {
     
 
 
-    return response.send(`<h1> Hello world!@@@!22fgfdg!2</h1>`);
+    return response.send(`<h1> Hello world!</h1>`);
 } catch (error) {
     return response.json({
 
