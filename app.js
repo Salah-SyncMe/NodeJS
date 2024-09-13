@@ -19,6 +19,29 @@ mongoose.connect(mogoose_url).then(()=>{
         console.log(`Listening for server port http://localhost:${port}`);
         });
 
+        app.get("/",(request,response)=>{
+try {
+    
+
+
+    return response.send(`<h1> Hello world</h1>`);
+} catch (error) {
+    return response.json({
+
+success:false,
+message:"error"
+
+    });
+
+
+
+    
+}
+
+
+        });
+
+
 
 
 
