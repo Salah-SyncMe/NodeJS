@@ -1,4 +1,5 @@
 const cloudinary=require("cloudinary");
+const fs=require("fs");
 
 cloudinary.config({ 
     cloud_name: 'ddwodk954', 
@@ -8,9 +9,9 @@ cloudinary.config({
 });
 
 
-exports.uploads=(files)=>{
+exports.uploads=(filePath)=>{
 return new Promise(resolve=>{
-cloudinary.uploader.upload(files,(result)=>{
+cloudinary.uploader.upload(filePath,(result)=>{
 
 resolve({
 url: result.url,
@@ -27,6 +28,27 @@ id: result.public_id
 
 }
 
+exports.uploadAll=async(files)=>{
+
+return await Promise.all(files.map(async (file)=>{
+    const filePath = file.path;
+    return new Promise(resolve=>{
+        cloudinary.uploader.upload(filePath,(result)=>{
+        
+        return resolve(
+        result.url        
+        
+        )
+        
+        
+        },{resource_type:"auto"});
+        
+        
+        });
+        
+     
+    }));
+}
 exports.uploadFile=(file)=>{
     return new Promise(resolve=>{
     cloudinary.uploader.upload(file,(result)=>{

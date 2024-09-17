@@ -1,6 +1,5 @@
 const path=require("path");
 const multer=require("multer");
-
 var storagePost=multer.diskStorage({
 
 filename: function(request,file,cb){

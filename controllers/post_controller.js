@@ -98,10 +98,10 @@ exports.addPost=async(request,response)=>{
 
         const addPost=new Post(request.body);
         if(request.files && request.files.length > 0){
-            const result=await cloud.uploads(request.files[0].path);
+            const result=await cloud.uploadAll(request.files);
 
-             addPost.images=result.url;
-            await fs.unlinkSync(request.files[0].path);
+             addPost.images=result;
+             console.log(result);
     }
     const session=await mongoose.startSession();
     session.startTransaction();
