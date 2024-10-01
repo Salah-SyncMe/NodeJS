@@ -9,6 +9,7 @@ userRoute.get("/:id",userController.fetchById); //ex:http://localhost:5000/user/
 //insert an user into database route
 userRoute.post("/signup",upload.single("image"),userController.userSignUp);
 userRoute.post("/login",userController.userLogin);
+userRoute.put("/update/:id",upload.single("image"),userController.updateUser);
 
 
 

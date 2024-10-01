@@ -5,6 +5,7 @@ var storage=multer.diskStorage({
 filename: function(request,file,cb){
 let ext=path.extname(file.originalname);
 const email= request.body.email;
+console.log(email);
 const s=email.split('@');
 cb(null,(s[0])+ext);
 

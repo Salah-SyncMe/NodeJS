@@ -5,6 +5,7 @@ const bcrypt=require("bcryptjs");
 
 const cloud=require("../middleware/cloudinary_config");
 const fs=require("fs");
+const { console } = require("inspector");
 
 
 exports.fetchUsers=async(request,response)=>{
@@ -176,6 +177,59 @@ else{
 
 
 };
+
+
+exports.updateUser=async(request,response)=>{
+ 
+    try {
+       
+        const id=await request.params.id;
+        
+
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+            return response.status(400).send({ success:false,error: 'Invalid ID format' });
+    }
+   
+
+if(request.file){
+    const result=await cloud.uploadFile(request.file.path);
+request.body.image=result.url;
+fs.unlinkSync(request.file.path);
+}
+
+
+        const updateSuccess=await User.findByIdAndUpdate(id,{$set:request.body},{timestamps:true});
+    
+    if(updateSuccess){
+        return response.json({
+    
+            success:true,
+            message:`Was updated successfully`,
+            user:updateSuccess
+            
+                });
+       }
+    
+    else{
+    
+        return response.json({
+            success:false,
+            message:`Error: Was not updated`
+         
+                });
+    
+    }   
+    } catch (error) {
+        return response.json({
+            success:false,
+            message:`${error}`
+            
+                }); 
+    }
+    
+    
+    };
 
 
 
