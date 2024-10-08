@@ -11,6 +11,7 @@ const { console } = require("inspector");
 exports.fetchUsers=async(request,response)=>{
 try {
     const allUsers=await User.find();
+    console.log('Route hit'); // Add this line for debugging
 
     if(allUsers.length==0){
         return response.json({
@@ -56,7 +57,7 @@ exports.fetchById=async(request,response)=>{
        if( dataUser.length==0){
         return response.json({
             success:true,
-            message:`The blogs not found`
+            message:`The users not found`
             
                 });
        }
@@ -79,6 +80,45 @@ exports.fetchById=async(request,response)=>{
     }
     
     };
+
+    exports.fetchUserExpectMyId=async(request,response)=>{
+  
+        try {
+            const id=request.params.id;
+            console.log(id);
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+            return response.status(400).send({ success:false,error: 'Invalid ID format' });
+        }
+            const dataUser=await User.where('_id').ne(id);
+        
+           if( dataUser.length==0){
+            return response.json({
+                success:true,
+                message:`The blogs not found`
+                
+                    });
+           }
+           else{
+            console.log('User query result:', dataUser);
+
+            return response.json({
+                success:true,
+                user:dataUser
+                
+                    });
+                     
+        
+           }
+            
+        } catch (error) {
+            return response.json({
+                success:false,
+                message:`${error}`
+                
+                    });   
+        }
+
+        };
 
 exports.userSignUp=async(request,response)=>{
     try {
