@@ -8,6 +8,9 @@ const fs=require("fs");
 const { console } = require("inspector");
 
 
+
+
+
 exports.fetchUsers=async(request,response)=>{
 try {
     const allUsers=await User.find();
@@ -45,6 +48,71 @@ try {
         
             }); }
 };
+exports.addFriend=async(request,response)=>{
+    try {
+       
+       
+        const user=request.params.id;
+        const {friend}=request.body;
+console.log(user);
+    
+        const existUser=await User.findById(user);
+
+    if(!existUser){
+        return response.status(400).json({
+
+            success:true,
+            message:`no have account yet`
+            
+                });
+
+
+
+    }
+    else{
+    
+    console.log(existUser.friends);
+    const existFriend = existUser.friends.find(
+        (f) => f.toString() === friend
+    );
+        if(!existFriend){
+        const session=await mongoose.startSession();
+        session.startTransaction();  
+        existUser.friends.push(friend);
+        await existUser.save({session});
+        await session.commitTransaction();
+        return response.status(200).json({success:true,
+            
+            friend:friend});
+
+    }
+    else{
+        return response.status(400).json({
+
+            success:true,
+            message:`The friend was added before`
+            
+                });
+
+    }
+
+
+
+    }
+    } catch (error) {
+        return response.json({
+            success:false,
+            message:`${error}`
+            
+                });
+    }
+
+
+
+
+};
+
+
 exports.fetchById=async(request,response)=>{
 
     try {
@@ -52,7 +120,7 @@ exports.fetchById=async(request,response)=>{
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return response.status(400).send({ success:false,error: 'Invalid ID format' });
     }
-        const dataUser=await User.findById(id).populate("posts");
+        const dataUser=await User.findById(id).populate("friends").populate("posts");
     
        if( dataUser.length==0){
         return response.json({

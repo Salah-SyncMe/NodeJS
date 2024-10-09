@@ -27,7 +27,15 @@ ref:"Post",
 required:true
 
 
-}]
+}],
+friends:[{
+
+    type:mongoose.Types.ObjectId,
+    ref:"user",
+    required:true
+
+    
+    },]
 },{timestamps:true});
 
 module.exports=mongoose.model("user",userSchrma);
