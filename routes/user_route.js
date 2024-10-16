@@ -3,12 +3,12 @@ const userRoute=express.Router();
 const userController=require("../controllers/user_controller");
 const upload=require("../middleware/upload_image_user");
 const User=require("../models/user_model");
-async function updateUsersWithDefaultValues() {
-    await User.updateMany({}); // Set age to 0 for all users
-}
-updateUsersWithDefaultValues().then(() => {
-    console.log("Updated all users");
-});
+// async function updateUsersWithDefaultValues() {
+//     await User.updateMany({}); // Set age to 0 for all users
+// }
+// updateUsersWithDefaultValues().then(() => {
+//     console.log("Updated all users");
+// });
 
 userRoute.get("/",userController.fetchUsers);
 userRoute.get("/:id",userController.fetchById); //ex:http://localhost:5000/user/66cdf8873c9f3d6af22d58be
