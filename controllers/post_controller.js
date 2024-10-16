@@ -43,7 +43,7 @@ exports.fetchById=async(request,response)=>{
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return response.status(400).send({ success:false,error: 'Invalid ID format' });
     }
-        const dataPost=await Post.findById(id);
+        const dataPost=await Post.findById(id).populate("user");
     
        if( dataPost.length==0){
         return response.json({
