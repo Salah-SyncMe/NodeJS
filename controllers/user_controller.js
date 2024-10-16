@@ -244,7 +244,13 @@ const result=await cloud.uploadFile(request.file.path);
 exports.userLogin=async(request,response)=>{
 try {
     const {email,password}=request.body;
-    const ExistUser=await User.findOne({email});
+    const ExistUser=await User.findOne({email}).populate({
+        path: 'friends',  // Populates the 'friends' field with User details
+        populate: {
+            path: 'posts',  // Populates the 'posts' field of the friends
+// Specify the model being populated
+        }
+    }).populate("posts");
 
     if(ExistUser){
 const isPassCorrect=bcrypt.compareSync(password,ExistUser.password);
