@@ -174,12 +174,22 @@ exports.fetchUserExpectMyId=async(request,response)=>{
             return response.status(400).send({ success:false,error: 'Invalid ID format' });
         }
             const dataUser=await User.where('_id').ne(id).populate({
-                path: 'friends',  // Populates the 'friends' field with User details
+                path: 'friends',  
                 populate: {
-                    path: 'posts',  // Populates the 'posts' field of the friends
-        // Specify the model being populated
+                    path: 'posts', 
+                    populate: {
+                        path: 'user', 
+                    }
                 }
-            }).populate("posts");
+                
+            }).populate(
+                {
+                    path: 'posts', 
+                    populate: {
+                        path: 'user', 
+                    }
+                }
+               );
         
            if( dataUser.length==0){
             return response.json({
