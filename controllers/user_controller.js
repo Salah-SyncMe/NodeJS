@@ -123,10 +123,18 @@ exports.fetchById=async(request,response)=>{
         const dataUser=await User.findById(id).populate({
             path: 'friends',  // Populates the 'friends' field with User details
             populate: {
-                path: 'posts',  // Populates the 'posts' field of the friends
+                path: 'posts', 
+                
+                populate: {
+                    path: 'user',  // Populates the 'posts' field of the friends
+        // Specify the model being populated
+                }
+                // Populates the 'posts' field of the friends
     // Specify the model being populated
             }
-        }).populate("posts");
+        }).populate(
+             'posts'
+           );
     
        if( dataUser.length==0){
         return response.json({
